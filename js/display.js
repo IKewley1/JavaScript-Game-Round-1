@@ -31,6 +31,14 @@ function drawPlayer(p){
         
     fill(colors[p.colorIndex]);
     ellipse(coord.x,coord.y,gridSize /2);
+    addParticle(
+        coord.x,coord.y,
+        Math.random()-0.5,Math.random()-0.5,
+        0,0,
+        100,
+        1
+    )
+    
 }
 
 function drawBoard(){
@@ -61,4 +69,51 @@ function drawScore(){
     textAlign(RIGHT);
     text(s2, canvasWidth - gridMargin, canvasHeight - scoreHeight + 11);
 
+}
+
+let particles = [];
+
+
+function addParticle(
+    x,y,
+    dx,dy,
+    ddx,ddy,
+    life,
+    colorIndex
+){
+    particles.push(
+        {
+            x:x,y:y,
+            dx:dx,dy:dy,
+            ddx:ddx,ddy:ddy,
+            life:life,
+            colorIndex:colorIndex
+        }
+    )
+}
+
+
+function drawParticles(){
+
+    let i= particles.length;
+    while(i--){
+        let p = particles[i];
+        fill("white");
+        ellipse(p.x,p.y,p.life / 10);
+        
+
+        p.x += p.dx;
+        p.y += p.dy;
+
+        p.dx += p.ddx;
+        p.dy += p.ddy;
+
+        p.life += -1;
+
+        if (p.life == 0){ 
+            particles.splice(i,1)
+       
+        }
+
+    }
 }
